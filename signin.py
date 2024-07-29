@@ -1,10 +1,14 @@
 from flask import Blueprint, request, jsonify, session
 from pymongo import MongoClient
 from bson.json_util import dumps
+from pymongo.server_api import ServerApi
+
+uri = "mongodb+srv://stevefelizardo4:Pufqe1LOw6lOLMH0@prometheus.ujykcdq.mongodb.net/?retryWrites=true&w=majority&appName=Prometheus"
+
 
 login_bp = Blueprint('signin', __name__)
 
-client = MongoClient('localhost', 27017)
+client = MongoClient(uri, server_api=ServerApi('1'))
 db = client['prometheus']
 users_collection = db['users']
 

@@ -7,9 +7,8 @@ from get_project import get_project
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'  # Secret key for session management
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/' 
 
-# Initialize LoginManager
 login_manager = LoginManager()
 login_manager.init_app(app)
 

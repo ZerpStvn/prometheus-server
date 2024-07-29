@@ -5,8 +5,10 @@ from datetime import datetime
 import os
 from bson import ObjectId
 from io import BytesIO
+from pymongo.server_api import ServerApi
 
-client = MongoClient('localhost', 27017)
+uri = "mongodb+srv://stevefelizardo4:Pufqe1LOw6lOLMH0@prometheus.ujykcdq.mongodb.net/?retryWrites=true&w=majority&appName=Prometheus"
+client = MongoClient(uri, server_api=ServerApi('1'))
 db = client['prometheus']
 projects_collection = db['projects']
 fs = GridFS(db)
