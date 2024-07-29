@@ -1,0 +1,51 @@
+from bson import ObjectId
+from flask import Blueprint, jsonify, request
+from pymongo import MongoClient
+
+get_project = Blueprint('getproject', __name__)
+client = MongoClient('localhost', 27017)
+db = client['prometheus']
+projects_collection = db['projects']
+
+@get_project.route('/getprojects', methods=['GET'])
+def get_projects():
+    try:
+        projects = list(projects_collection.find())
+        for project in projects:
+            project['_id'] = str(project['_id'])
+            if 'image_id' in project:
+                project['image_id'] = str(project['image_id'])
+        return jsonify(projects), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@get_project.route('/getprojects/<id>', methods=['GET'])
+def get_project_by_id(id):
+    try:
+        project = projects_collection.find_one({"_id": ObjectId(id)})
+        if project:
+            project['_id'] = str(project['_id'])
+            if 'image_id' in project:
+                project['image_id'] = str(project['image_id'])
+            return jsonify(project), 200
+        else:
+            return jsonify({"error": "Project not found"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@get_project.route('/getprojects/edit/<id>', methods=['PUT'])
+def update_project(id):
+    try:
+        data = request.json
+        projects_collection.update_one({"_id": ObjectId(id)}, {"$set": data})
+        return jsonify({"message": "Project updated successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@get_project.route('/getprojects/delete/<id>', methods=['DELETE'])
+def delete_project(id):
+    try:
+        projects_collection.delete_one({"_id": ObjectId(id)})
+        return jsonify({"message": "Project deleted successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
