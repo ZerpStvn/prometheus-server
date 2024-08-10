@@ -1,15 +1,17 @@
+import ssl
 from flask import Blueprint, request, jsonify, session
 from pymongo import MongoClient
 from bson.json_util import dumps
 from pymongo.server_api import ServerApi
 
-# Updated URI with SSL parameters included directly in the connection string
-uri = "mongodb+srv://stevefelizardo4:Pufqe1LOw6lOLMH0@prometheus.ujykcdq.mongodb.net/?retryWrites=true&w=majority&appName=Prometheus&ssl=true&ssl_cert_reqs=CERT_NONE"
+
+uri = "mongodb+srv://stevefelizardo4:Pufqe1LOw6lOLMH0@prometheus.ujykcdq.mongodb.net/?retryWrites=true&w=majority&appName=Prometheus",
 
 login_bp = Blueprint('signin', __name__)
 
 try:
-    client = MongoClient(uri, server_api=ServerApi('1'))
+    client = MongoClient(uri, ssl=True,
+    ssl_cert_reqs=ssl.CERT_NONE, server_api=ServerApi('1'))
     db = client['prometheus']
     users_collection = db['users']
 except Exception as e:

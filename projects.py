@@ -1,3 +1,4 @@
+import ssl
 from flask import Blueprint, request, jsonify, send_file
 from pymongo import MongoClient
 from gridfs import GridFS
@@ -8,7 +9,8 @@ from io import BytesIO
 from pymongo.server_api import ServerApi
 
 uri = "mongodb+srv://stevefelizardo4:Pufqe1LOw6lOLMH0@prometheus.ujykcdq.mongodb.net/?retryWrites=true&w=majority&appName=Prometheus"
-client = MongoClient(uri, server_api=ServerApi('1'))
+client = MongoClient(uri,ssl=True,
+    ssl_cert_reqs=ssl.CERT_NONE, server_api=ServerApi('1'))
 db = client['prometheus']
 projects_collection = db['projects']
 fs = GridFS(db)
