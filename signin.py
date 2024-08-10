@@ -12,14 +12,12 @@ login_bp = Blueprint('signin', __name__)
 try:
     client = MongoClient(
     uri,
-    # Optional parameters
     document_class=dict,
     tz_aware=True,
     connect=True,
     server_api=ServerApi('1'),
     tls=True,
-    tlsAllowInvalidCertificates=True,  # Equivalent to ssl_cert_reqs=ssl.CERT_NONE
-    # Other optional kwargs can be added as needed
+    tlsAllowInvalidCertificates=True,  
 )
     db = client['prometheus']
     users_collection = db['users']
