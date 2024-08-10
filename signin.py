@@ -10,8 +10,17 @@ uri = "mongodb+srv://stevefelizardo4:Pufqe1LOw6lOLMH0@prometheus.ujykcdq.mongodb
 login_bp = Blueprint('signin', __name__)
 
 try:
-    client = MongoClient(uri, ssl=True,
-    ssl_cert_reqs=ssl.CERT_NONE, server_api=ServerApi('1'))
+    client = MongoClient(
+    uri,
+    # Optional parameters
+    document_class=dict,
+    tz_aware=True,
+    connect=True,
+    server_api=ServerApi('1'),
+    tls=True,
+    tlsAllowInvalidCertificates=True,  # Equivalent to ssl_cert_reqs=ssl.CERT_NONE
+    # Other optional kwargs can be added as needed
+)
     db = client['prometheus']
     users_collection = db['users']
 except Exception as e:

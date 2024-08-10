@@ -16,3 +16,4 @@ packaging==24.1
 pymongo==4.7.2
 Werkzeug==3.0.3
 certifi
+pymongo[ocsp]

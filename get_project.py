@@ -7,8 +7,16 @@ from pymongo.server_api import ServerApi
 uri = "mongodb+srv://stevefelizardo4:Pufqe1LOw6lOLMH0@prometheus.ujykcdq.mongodb.net/?retryWrites=true&w=majority&appName=Prometheus"
 
 get_project = Blueprint('getproject', __name__)
-client = MongoClient(uri,ssl=True,
-    ssl_cert_reqs=ssl.CERT_NONE, server_api=ServerApi('1'))
+client = MongoClient(
+    uri,
+    # Optional parameters
+    document_class=dict,
+    tz_aware=True,
+    connect=True,
+    server_api=ServerApi('1'),
+    tls=True,
+    tlsAllowInvalidCertificates=True, 
+)
 db = client['prometheus']
 projects_collection = db['projects']
 
